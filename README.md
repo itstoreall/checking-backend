@@ -10,7 +10,7 @@
 _Postman:_
 
 1. create a new environment
-2. reate a new collection
+2. create a new collection
 3. create a new POST payloads request
 
 ### POST payloads
@@ -18,7 +18,7 @@ _Postman:_
 _endpoint:_
 
 ```
-http://localhost:8822/api/main/create-multi
+http://localhost:3000/api/main/create-multi
 ```
 
 _request:_
@@ -81,7 +81,7 @@ pm.test('create payload', () => {
 _endpoint:_
 
 ```
-http://localhost:8822/api/main/reset-multi
+http://localhost:3000/api/main/reset-multi
 ```
 
 _request:_
