@@ -1,12 +1,15 @@
 // @ts-nocheck
 import { Request, Response, NextFunction as Next } from 'express';
 import getPayloadHandler from './handlers/getPayloadHandler';
-import createPayloadHandler from './handlers/createPayloadHandler';
+import createMultiPayloadHandler from './handlers/createMultiPayloadHandler';
+import resetMultiPayloadHandler from './handlers/resetMultiPayload';
+import createSinglePayloadHandler from './handlers/createSinglePayloadHandler';
 import { HttpCode } from '../constants';
+import sortData from '../helpers/sortData';
 import {
   creareReq,
   createRes,
-  // createResLength,
+  createResLength, // *
   createResErr,
 } from '../helpers/controllerLogs';
 
@@ -27,11 +30,45 @@ const getPayload = async (req: Request, res: Response, next: Next) => {
   }
 };
 
-const createPayload = async (req: Request, res: Response, next: Next) => {
-  const name = 'POST payload';
+const createMultiPayload = async (req: Request, res: Response, next: Next) => {
+  const name = 'POST multi payload';
   try {
     creareReq(name);
-    const response = await createPayloadHandler(req);
+    const response = await createMultiPayloadHandler(req);
+    createResLength(name, response);
+    return res.status(HttpCode.CREATED).json({
+      status: 'success',
+      code: HttpCode.CREATED,
+      data: response ? sortData(response, 'payload') : null,
+    });
+  } catch (e) {
+    createResErr(name, e);
+    next(e);
+  }
+};
+
+const resetMultiPayload = async (req: Request, res: Response, next: Next) => {
+  const name = 'DELETE payload';
+  try {
+    creareReq(name);
+    const response = await resetMultiPayloadHandler(req);
+    createRes(name, response);
+    return res.status(HttpCode.OK).json({
+      status: 'success',
+      code: HttpCode.OK,
+      data: response ? response : null,
+    });
+  } catch (e) {
+    createResErr(name, e);
+    next(e);
+  }
+};
+
+const createSinglePayload = async (req: Request, res: Response, next: Next) => {
+  const name = 'POST single payload';
+  try {
+    creareReq(name);
+    const response = await createSinglePayloadHandler(req);
     createRes(name, response);
     return res.status(HttpCode.CREATED).json({
       status: 'success',
@@ -46,5 +83,7 @@ const createPayload = async (req: Request, res: Response, next: Next) => {
 
 export default {
   getPayload,
-  createPayload,
+  createMultiPayload,
+  resetMultiPayload,
+  createSinglePayload,
 };
