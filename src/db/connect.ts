@@ -1,13 +1,9 @@
 // @ts-nocheck
 import { Sequelize } from 'sequelize';
-import { currentDB } from '../constants';
 import Gen from '../models/Gen';
-import { URI } from '../constants';
 
-const uri = URI;
 let db = {};
 
-// Localhost
 export const sequelizeLocalhost = new Sequelize({
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
@@ -29,32 +25,7 @@ export const sequelizeLocalhost = new Sequelize({
   },
 });
 
-// Heroku
-const sequelizeHeroku = new Sequelize(uri, {
-  query: {
-    raw: true,
-  },
-  define: {
-    freezeTableName: true,
-  },
-  pool: {
-    max: 20,
-    min: 0,
-    acquire: 60000,
-    idle: 10000,
-  },
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    },
-  },
-});
-
-export const sequelize =
-  currentDB === 'localhost'
-    ? sequelizeLocalhost
-    : currentDB === 'heroku' && sequelizeHeroku;
+export const sequelize = sequelizeLocalhost;
 
 const Models = [Gen];
 

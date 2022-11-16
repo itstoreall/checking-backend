@@ -7,7 +7,7 @@ import routes from './routes';
 
 const app = express();
 
-const host = process.env.POSTGRES_HOST || 'localhost';
+const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 5001;
 
 app.use('*', cors());

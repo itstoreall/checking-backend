@@ -1,10 +1,5 @@
-// @ts-nocheck
-
-// Current DB (don't change or remove) *
-export const currentDB = 'localhost'; // *
-// export const currentDB = 'heroku'; // *
-
 export const singleFile = './src/db/data/singleFile';
+export const multiFile = './src/db/data/multiFile';
 
 export const HttpCode = {
   OK: 200,
@@ -14,5 +9,3 @@ export const HttpCode = {
   NOT_FOUND: 404,
   INTERNAL_SERVER_ERROR: 500,
 };
-
-// */
